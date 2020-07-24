@@ -1,0 +1,372 @@
+ <?php 
+
+$active = 'Cart';
+ include("includes/shop_header.php"); ?>
+	
+	<!-- Breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="bread-inner">
+						<ul class="bread-list">
+							<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="cart.php">Cart</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Breadcrumbs -->
+			
+	<!-- Shopping Cart -->
+	<div class="shopping-cart section">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<!-- Shopping Summary -->
+	<?php
+
+		$ip_add = getRealIpUser();
+
+		$select_cart = "SELECT * FROM cart WHERE ip_add = '$ip_add'";
+
+		$run_cart = mysqli_query($db, $select_cart);
+
+		$count = mysqli_num_rows($run_cart);
+
+	?>
+
+	 <form action="cart.php" method="post" enctype="multipart/form-data">
+	<p style="background-color: #f7941d; color: #fff; padding: 5px;"><?php echo $count; ?> items in cart.</p>
+	<table class="table shopping-summery">
+		<thead>
+							<tr class="main-hading">
+								<th>PRODUCT</th>
+								<th>NAME</th>
+								<th class="text-center">UNIT PRICE</th>
+								<th class="text-center">QUANTITY</th>
+								<th class="text-center">SIZE</th>
+								<th class="text-center">COLOR</th> 
+								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
+							</tr>
+						</thead>
+						<tbody>
+
+						<?php
+						
+						$total = 0;
+
+						while($row_cart = mysqli_fetch_array($run_cart))
+						{
+
+						$pro_id   = $row_cart['p_id'];
+						$pro_size = $row_cart['size'];
+						$pro_qty  = $row_cart['qty'];
+						$pro_color = $row_cart['color'];
+
+						$get_products = "SELECT * FROM products WHERE product_id = '$pro_id'";
+
+						$run_products = mysqli_query($db, $get_products);
+
+						while($row_products = mysqli_fetch_array($run_products))
+						{
+
+							$product_title = $row_products['product_title'];
+
+							$product_img1 = $row_products['product_img1'];
+
+							$product_desc = $row_products['product_desc'];
+
+							$only_price = $row_products['product_price'];
+
+							$sub_total = $only_price * $pro_qty;
+
+							$total += $sub_total;
+
+							?>
+						
+							<tr>
+								<td class="image" data-title="No"><img src="admin_area/product_images/<?php echo $product_img1; ?>" alt="Product Image "></td>
+								<td class="product-des" data-title="Description">
+									<p class="product-name"><a href="details.php/pro_id=<?php echo $pro_id ?>"><?php echo $product_title; ?></a></p>
+									<p class="product-des"><?php echo $product_desc; ?></p>
+								</td>
+								<td class="price" data-title="Price"><span><?php echo "₵".$only_price.".00"; ?></span></td>
+								<td class="qty" data-title="Qty"><?php echo $pro_qty ?></td>
+								<td class="total-amount" data-title="Size"><span><?php echo $pro_size; ?></span></td>
+
+								<td class="total-amount" data-title="Color"><span><?php echo $pro_color; ?></span></td>
+
+								<td class="action"><input type="checkbox" name="remove[]" value="<?php echo $pro_id; ?>"></td>
+							</tr>
+							<?php } } ?>
+						</tbody>
+
+						 <tfoot>
+                            <tr>
+                            <td colspan="7">
+                        	 <div class="pull-right">
+		                        <button type="submit" name="update" value="Update Cart" class="btn">
+		                           <i class="fa fa-refresh"></i> Update Cart 
+		                        </button>
+                          </div>
+                           </td>
+                            </tr>
+                        </tfoot>
+					</table>
+					<!--/ End Shopping Summary -->
+				</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<!-- Total Amount -->
+					<div class="total-amount">
+						<div class="row">
+							<div class="col-lg-8 col-md-5 col-12">
+								<div class="left">
+									<!--
+									<div class="coupon">
+										<form action="#" target="_blank">
+											<input name="Coupon" placeholder="Enter Your Coupon">
+											<button class="btn">Apply</button>
+										</form>
+									</div>
+									<div class="checkbox">
+										<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Shipping (+10$)</label>
+									</div>
+								-->
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-7 col-12">
+								<div class="right">
+									<ul>
+										<li>Cart Subtotal<span><?php echo "₵".$total.".00"; ?></span></li>
+										<li>Shipping<span>Free</span></li>
+										<li class="last">You Pay<span><?php echo "₵".$total.".00"; ?></span></li>
+									</ul>
+									<div class="button5">
+										<a href="checkout.php" class="btn">Checkout</a>
+										<a href="shop.php" class="btn">Continue shopping</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--/ End Total Amount -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ End Shopping Cart -->
+
+	<?php
+
+		function update_cart()
+		{
+			global $db;
+
+			if(isset($_POST['update']))
+			{
+				foreach($_POST['remove'] as $remove_id) 
+				{
+					$delete_product = "DELETE FROM cart WHERE p_id='$remove_id'";
+					$run_delete = mysqli_query($db, $delete_product);
+
+					if($run_delete)
+					{
+						echo"<script>document.location='cart.php'</script>";
+					}
+				}
+			}
+		}
+
+		echo @$up_cart = update_cart();
+
+	?>		
+	<!-- Start Shop Services Area  -->
+	<section class="shop-services section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-12">
+					<!-- Start Single Service -->
+					<div class="single-service">
+						<i class="ti-rocket"></i>
+						<h4>Free shiping</h4>
+						<p>Orders over $100</p>
+					</div>
+					<!-- End Single Service -->
+				</div>
+				<div class="col-lg-3 col-md-6 col-12">
+					<!-- Start Single Service -->
+					<div class="single-service">
+						<i class="ti-reload"></i>
+						<h4>Free Return</h4>
+						<p>Within 30 days returns</p>
+					</div>
+					<!-- End Single Service -->
+				</div>
+				<div class="col-lg-3 col-md-6 col-12">
+					<!-- Start Single Service -->
+					<div class="single-service">
+						<i class="ti-lock"></i>
+						<h4>Sucure Payment</h4>
+						<p>100% secure payment</p>
+					</div>
+					<!-- End Single Service -->
+				</div>
+				<div class="col-lg-3 col-md-6 col-12">
+					<!-- Start Single Service -->
+					<div class="single-service">
+						<i class="ti-tag"></i>
+						<h4>Best Peice</h4>
+						<p>Guaranteed price</p>
+					</div>
+					<!-- End Single Service -->
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Shop Newsletter -->
+	
+	<!-- Start Shop Newsletter  -->
+	<section class="shop-newsletter section">
+		<div class="container">
+			<div class="inner-top">
+				<div class="row">
+					<div class="col-lg-8 offset-lg-2 col-12">
+						<!-- Start Newsletter Inner -->
+						<div class="inner">
+							<h4>Newsletter</h4>
+							<p> Subscribe to our newsletter and get <span>10%</span> off your first purchase</p>
+							<form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
+								<input name="EMAIL" placeholder="Your email address" required="" type="email">
+								<button class="btn">Subscribe</button>
+							</form>
+						</div>
+						<!-- End Newsletter Inner -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Shop Newsletter -->
+	
+	
+	
+	<!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row no-gutters">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                <!-- Product Slider -->
+									<div class="product-gallery">
+										<div class="quickview-slider-active">
+											<div class="single-slider">
+												<img src="images/modal1.jpg" alt="#">
+											</div>
+											<div class="single-slider">
+												<img src="images/modal2.jpg" alt="#">
+											</div>
+											<div class="single-slider">
+												<img src="images/modal3.jpg" alt="#">
+											</div>
+											<div class="single-slider">
+												<img src="images/modal4.jpg" alt="#">
+											</div>
+										</div>
+									</div>
+								<!-- End Product slider -->
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                <div class="quickview-content">
+                                    <h2>Flared Shift Dress</h2>
+                                    <div class="quickview-ratting-review">
+                                        <div class="quickview-ratting-wrap">
+                                            <div class="quickview-ratting">
+                                                <i class="yellow fa fa-star"></i>
+                                                <i class="yellow fa fa-star"></i>
+                                                <i class="yellow fa fa-star"></i>
+                                                <i class="yellow fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <a href="#"> (1 customer review)</a>
+                                        </div>
+                                        <div class="quickview-stock">
+                                            <span><i class="fa fa-check-circle-o"></i> in stock</span>
+                                        </div>
+                                    </div>
+                                    <h3>$29.00</h3>
+                                    <div class="quickview-peragraph">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
+                                    </div>
+									<div class="size">
+										<div class="row">
+											<div class="col-lg-6 col-12">
+												<h5 class="title">Size</h5>
+												<select>
+													<option selected="selected">s</option>
+													<option>m</option>
+													<option>l</option>
+													<option>xl</option>
+												</select>
+											</div>
+											<div class="col-lg-6 col-12">
+												<h5 class="title">Color</h5>
+												<select>
+													<option selected="selected">orange</option>
+													<option>purple</option>
+													<option>black</option>
+													<option>pink</option>
+												</select>
+											</div>
+										</div>
+									</div>
+                                    <div class="quantity">
+										<!-- Input Order -->
+										<div class="input-group">
+											<div class="button minus">
+												<button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+													<i class="ti-minus"></i>
+												</button>
+											</div>
+											<input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
+											<div class="button plus">
+												<button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
+													<i class="ti-plus"></i>
+												</button>
+											</div>
+										</div>
+										<!--/ End Input Order -->
+									</div>
+									<div class="add-to-cart">
+										<a href="#" class="btn">Add to cart</a>
+										<a href="#" class="btn min"><i class="ti-heart"></i></a>
+										<a href="#" class="btn min"><i class="fa fa-compress"></i></a>
+									</div>
+                                    <div class="default-social">
+										<h4 class="share-now">Share:</h4>
+                                        <ul>
+                                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                            <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal end -->
+	
+<?php include("includes/shop_footer.php"); ?>
