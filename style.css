@@ -1208,18 +1208,13 @@ Version:1.0
 /*======================================
    Hero Area CSS
 ========================================*/ 
-
-
-/*
 .hero-slider {
 	background: #fff;
 	overflow: hidden;
-	margin-bottom: 40px;
 }
-
 .hero-slider .single-slider {
 	height: auto;
-	background-image: url("images/head.jpg");
+	background-image: url('https://via.placeholder.com/1900x700');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -1266,8 +1261,7 @@ Version:1.0
 .hero-slider .hero-text .btn:hover{
 	background:#F7941D;
 	color:#fff;
-} */
-
+}
 /* Start Hero Area 2 CSS */
 .hero-area2{
 	position:relative;
@@ -4949,3 +4943,4 @@ Version:1.0
 /*=============================
 	End Footer CSS
 ===============================*/
+

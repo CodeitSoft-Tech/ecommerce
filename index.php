@@ -133,11 +133,11 @@
     </div>
 	<!-- End Product Area -->
 	
-	<!-- Start Medium Banner  -->
+	<!-- Start Medium Banner  
 	<section class="midium-banner">
 		<div class="container">
 			<div class="row">
-				<!-- Single Banner  -->
+				<!-- Single Banner  
 				<div class="col-lg-6 col-md-6 col-12">
 					<div class="single-banner">
 						<img src="https://via.placeholder.com/600x370" alt="#">
@@ -147,9 +147,9 @@
 							<a href="#">Shop Now</a>
 						</div>
 					</div>
-				</div>
-				<!-- /End Single Banner  -->
-				<!-- Single Banner  -->
+				</div> 
+				<!-- /End Single Banner 
+				<!-- Single Banner  
 				<div class="col-lg-6 col-md-6 col-12">
 					<div class="single-banner">
 						<img src="https://via.placeholder.com/600x370" alt="#">
@@ -160,12 +160,14 @@
 						</div>
 					</div>
 				</div>
-				<!-- /End Single Banner  -->
+				<!-- /End Single Banner  
 			</div>
 		</div>
 	</section>
-	<!-- End Medium Banner -->
-	<!-- Start Most Popular -->
+	End Medium Banner -->
+
+
+	<!-- Start Most Popular
 	<div class="product-area most-popular section">
         <div class="container">
             <div class="row">
@@ -176,209 +178,152 @@
 				</div>
             </div>
             <div class="row">
-                <?php getProduct(); ?>
+                <?php //getProduct(); ?>
             </div>
         </div>
     </div>
-	<!-- End Most Popular Area -->
+	 End Most Popular Area -->
+
+
+ <!-- Related Product -->
+        <div class="product-area most-popular section">
+        <div class="container">
+        <div class="row">
+        <div class="col-12">
+        <div class="section-title">
+          <h2>Apparels</h2>
+          </div>
+           </div>
+            </div>
+            <div class="row">
+            <div class="col-12">
+            <div class="owl-carousel popular-slider">
+            <!-- Start Single Product -->
+            <?php
+                $get_products = "SELECT * FROM products WHERE p_cat_id ='6'";
+                $run_products = mysqli_query($db, $get_products);
+
+                while($row_products = mysqli_fetch_array($run_products))
+                {
+                  $pro_id = $row_products['product_id'];
+                  $pro_title = $row_products['product_title'];
+                  $pro_img1 = $row_products['product_img1'];
+                               
+                   if($row_products['product_status'] == 'Regular')
+                     {
+                      $pro_price = $row_products['product_price'];
+                    }
+                  elseif ($row_products['product_status'] == 'Discount') 
+                     {
+                      $pro_price = $row_products['discount_price'];
+                    }
+                  else
+                     {
+                      $pro_price = $row_products['promo_price'];
+                     }
+
+                  echo "
+                  <div class='single-product'>
+                  <div class='product-img'>
+                  <a href='details.php?pro_id=$pro_id'>
+                  <img class='default-img' src='admin_area/product_images/$pro_img1' alt='Related Images'>
+                </a>
+                <div class='button-head'>
+                  <div class='product-action'>
+                    <a data-toggle='modal' data-target='#exampleModal' title='Quick View' href='#'><i class='ti-eye'></i><span>Quick Shop</span></a>
+                  </div>
+                  <div class='product-action-2'>
+                    <a title='Add to cart' href='#'>Add to cart</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class='product-content'>
+                <h3><a href='details.php?pro_id=$pro_id'>$pro_title</a></h3>
+                <div class='product-price'>
+                  <span>₵$pro_price.00</span>
+                </div>
+              </div>
+            </div>";
+                }
+            ?>
+            <!-- End Single Product -->          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="product-area most-popular section">
+        <div class="container">
+        <div class="row">
+        <div class="col-12">
+        <div class="section-title">
+          <h2>Electronics</h2>
+          </div>
+           </div>
+            </div>
+            <div class="row">
+            <div class="col-12">
+            <div class="owl-carousel popular-slider">
+            <!-- Start Single Product -->
+            <?php
+                $get_products = "SELECT * FROM products WHERE p_cat_id ='5'";
+                $run_products = mysqli_query($db, $get_products);
+
+                while($row_products = mysqli_fetch_array($run_products))
+                {
+                  $pro_id = $row_products['product_id'];
+                  $pro_title = $row_products['product_title'];
+                  $pro_img1 = $row_products['product_img1'];
+                               
+                   if($row_products['product_status'] == 'Regular')
+                     {
+                      $pro_price = $row_products['product_price'];
+                    }
+                  elseif ($row_products['product_status'] == 'Discount') 
+                     {
+                      $pro_price = $row_products['discount_price'];
+                    }
+                  else
+                     {
+                      $pro_price = $row_products['promo_price'];
+                     }
+
+                  echo "
+                  <div class='single-product'>
+                  <div class='product-img'>
+                  <a href='details.php?pro_id=$pro_id'>
+                  <img class='default-img' src='admin_area/product_images/$pro_img1' alt='Related Images'>
+                </a>
+                <div class='button-head'>
+                  <div class='product-action'>
+                    <a data-toggle='modal' data-target='#exampleModal' title='Quick View' href='#'><i class='ti-eye'></i><span>Quick Shop</span></a>
+                  </div>
+                  <div class='product-action-2'>
+                    <a title='Add to cart' href='#'>Add to cart</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class='product-content'>
+                <h3><a href='details.php?pro_id=$pro_id'>$pro_title</a></h3>
+                <div class='product-price'>
+                  <span>₵$pro_price.00</span>
+                </div>
+              </div>
+            </div>";
+                }
+            ?>
+            <!-- End Single Product -->          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	
-	<!-- Start Shop Home List  -->
-	<section class="shop-home-list section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4 col-md-6 col-12">
-					<div class="row">
-						<div class="col-12">
-							<div class="shop-section-title">
-								<h1>On sale</h1>
-							</div>
-						</div>
-					</div>
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h4 class="title"><a href="#">Licity jelly leg flat Sandals</a></h4>
-									<p class="price with-discount">$59</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
-									<p class="price with-discount">$44</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
-									<p class="price with-discount">$89</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-				</div>
-				<div class="col-lg-4 col-md-6 col-12">
-					<div class="row">
-						<div class="col-12">
-							<div class="shop-section-title">
-								<h1>Best Seller</h1>
-							</div>
-						</div>
-					</div>
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
-									<p class="price with-discount">$65</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
-									<p class="price with-discount">$33</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
-									<p class="price with-discount">$77</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-				</div>
-				<div class="col-lg-4 col-md-6 col-12">
-					<div class="row">
-						<div class="col-12">
-							<div class="shop-section-title">
-								<h1>Top viewed</h1>
-							</div>
-						</div>
-					</div>
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
-									<p class="price with-discount">$22</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
-									<p class="price with-discount">$35</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-					<!-- Start Single List  -->
-					<div class="single-list">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#">
-									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
-									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
-									<p class="price with-discount">$99</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Single List  -->
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Shop Home List  -->
+	
 	
 	
 	
@@ -386,46 +331,69 @@
 	<section class="shop-services section home">
 		<div class="container">
 			<div class="row">
+
+				<?php
+
+					$get_boxes = "SELECT * FROM boxes";
+					$run_boxes = mysqli_query($db, $get_boxes);
+
+					while($row_boxes = mysqli_fetch_array($run_boxes))
+					{
+						$box_id = $row_boxes['box_id'];
+						$box_title = $row_boxes['box_title'];
+						$box_icon  = $row_boxes['box_icon'];
+						$box_desc = $row_boxes['box_desc'];
+
+
+					
+
+				?>
+
+				
 				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
+				
 					<div class="single-service">
-						<i class="ti-rocket"></i>
-						<h4>Free shiping</h4>
-						<p>Orders over $100</p>
-					</div>
-					<!-- End Single Service -->
+					   <i class="<?php echo $box_icon; ?>"></i>
+						<h4><?php echo $box_title; ?></h4>
+						<p><?php echo $box_desc; ?></p>
+					</div>				
 				</div>
+				
+				<?php } ?>
+				<!--
 				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
+				
 					<div class="single-service">
 						<i class="ti-reload"></i>
 						<h4>Free Return</h4>
 						<p>Within 30 days returns</p>
 					</div>
-					<!-- End Single Service -->
 				</div>
+				
 				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
+				
 					<div class="single-service">
 						<i class="ti-lock"></i>
-						<h4>Sucure Payment</h4>
+						<h4>Secure Payment</h4>
 						<p>100% secure payment</p>
 					</div>
-					<!-- End Single Service -->
 				</div>
+
 				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
+					
 					<div class="single-service">
 						<i class="ti-tag"></i>
-						<h4>Best Peice</h4>
+						<h4>Best Price</h4>
 						<p>Guaranteed price</p>
 					</div>
-					<!-- End Single Service -->
-				</div>
+				</div>-->
+
 			</div>
 		</div>
 	</section>
 	<!-- End Shop Services Area -->
+
+
 	
 	<!-- Start Shop Newsletter  -->
 	<section class="shop-newsletter section">

@@ -91,7 +91,6 @@ $active = 'Cart';
 								<td class="image" data-title="No"><img src="admin_area/product_images/<?php echo $product_img1; ?>" alt="Product Image "></td>
 								<td class="product-des" data-title="Description">
 									<p class="product-name"><a href="details.php/pro_id=<?php echo $pro_id ?>"><?php echo $product_title; ?></a></p>
-									<p class="product-des"><?php echo $product_desc; ?></p>
 								</td>
 								<td class="price" data-title="Price"><span><?php echo "₵".$only_price.".00"; ?></span></td>
 								<td class="qty" data-title="Qty"><?php echo $pro_qty ?></td>

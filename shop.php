@@ -11,8 +11,8 @@
 					<div class="col-12">
 						<div class="bread-inner">
 							<ul class="bread-list">
-								<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="blog-single.html">Shop</a></li>
+								<li><a href="index.php">Home<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="shop.php">Shop</a></li>
 							</ul>
 						</div>
 					</div>
@@ -24,18 +24,127 @@
 		<!-- Product Style -->
 		<section class="product-area shop-sidebar shop section">
 			<div class="container">
-				<div class="row">
-					<div class="col-lg-3 col-md-4 col-12">
-						<div class="shop-sidebar">
+			<div class="row">
+		<div class="col-lg-3 col-md-4 col-12">
+			<div class="shop-sidebar">
 								<!-- Single Widget -->
+			<div class="single-widget category">
+				<h3 class="title">Product Categories</h3>
+				<ul class="categor-list">
+						<?php getPCats(); ?>
+									</ul>
+								</div>
 								<div class="single-widget category">
 									<h3 class="title">Categories</h3>
 									<ul class="categor-list">
-										<?php getPCats(); ?>
+										<?php getCats(); ?>
 									</ul>
 								</div>
+
+		<div class="single-widget card-body category">
+		<h3 class="title">
+			Top Brands
+
+			<div class="pull-right">
+				<a href="#" style="color: #000">
+					<span class="nav-toggle hide-show">
+						Hide
+					</span>
+				</a>
+			</div>
+		</h3>
+
+	 <div class="input-group mb-3">
+	  
+	  <input type="text" class="form-control" placeholder="Filter Brands" aria-label="" aria-describedby="basic-addon2" id="brand-filter" data-filters="#brand" data-action="filter">
+
+	  <div class="input-group-append">
+	    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+	 </div>
+
+    </div>
+    	<div class="card-body scroll-menu">
+		<ul class="categor-list" id="brand">
+			<?php 
+				$get_brands = "SELECT * FROM brands WHERE brand_top = 'Yes'";
+				$run_brands = mysqli_query($db, $get_brands);
+
+				while($row_brand = mysqli_fetch_array($run_brands))
+				{
+					$brand_id = $row_brand['brand_id'];
+					$brand_title = $row_brand['brand_title'];
+					$brand_image = $row_brand['brand_image'];
+
+					if($brand_image == "")
+					{
+
+					}
+					else
+					{
+						$brand_image = "<img src='admin_area/brand_images/$brand_image' width='20px'>&nbsp;";
+					}
+
+					echo "<li class='checkbox checkbox-primary'>
+
+							<a>
+								<label>
+								
+					   <input value='$brand_id' type='checkbox' class='checkbox' name='brands'>
+					   <span>
+					   	$brand_image
+					   	$brand_title
+					   	</span>
+								</label>
+
+							</a>
+
+					   </li>";
+				}
+
+				$get_brands = "SELECT * FROM brands WHERE brand_top = 'No'";
+				$run_brands = mysqli_query($db, $get_brands);
+
+				while($row_brand = mysqli_fetch_array($run_brands))
+				{
+					$brand_id = $row_brand['brand_id'];
+					$brand_title = $row_brand['brand_title'];
+					$brand_image = $row_brand['brand_image'];
+
+					if($brand_image == "")
+					{
+
+					}
+					else
+					{
+						$brand_image = "<img src='admin_area/brand_images/$brand_image' width='20px'>&nbsp;";
+					}
+
+					echo "<li class='checkbox checkbox-primary'>
+
+							<a>
+								<label>
+								
+					   <input type='checkbox' value='$brand_id'  class='checkbox' name='brands'>
+
+					   	 <span>
+					   	$brand_image
+					   	$brand_title
+					   	</span>
+
+								</label>
+
+							</a>
+
+					   </li>";
+				}
+
+			 ?>
+		</ul>
+	</div>
+	</div>
 								<!--/ End Single Widget -->
-								<!-- Shop By Price -->
+
+								<!-- Shop By Price 
 									<div class="single-widget range">
 										<h3 class="title">Shop by Price</h3>
 										<div class="price-filter">
@@ -60,7 +169,7 @@
 											</li>
 										</ul>
 									</div>
-									<!--/ End Shop By Price -->
+									 End Shop By Price -->
 
 								<!-- Single Widget
 								<div class="single-widget category">
@@ -101,8 +210,24 @@
                         {
                             $pro_id = $row_products['product_id'];
                             $pro_title = $row_products['product_title'];
-                            $pro_price = $row_products['product_price'];
                             $pro_img1 = $row_products['product_img1'];
+
+		                    if($row_products['product_status'] == 'Regular')
+							{
+							  $pro_price = $row_products['product_price'];
+							  
+							}
+
+							elseif ($row_products['product_status'] == 'Discount') {
+								$pro_price = $row_products['discount_price'];
+								
+							}
+							else
+							{
+							    $pro_price = $row_products['promo_price'];
+							    
+							}
+
 
 
     echo "

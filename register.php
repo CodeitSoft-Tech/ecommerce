@@ -61,17 +61,12 @@ include("includes/shop_header.php"); ?>
 					  <input type="password" name="password_2" class="form-control">
 					</div>
 
-					<div class="form-group">	
-					 <label style="font-weight: 700;">Upload image</label>
-		             <input type="file" name="c_image" class="form-control">
-		            </div>
-
 					<div class="form-group button">
 					 <button type="submit" class="btn form-control" name="register_btn" style="padding-bottom: 30px;">Register</button>
 					</div>
 					
 					<p>
-						Already Registered? <a href="login.php" style="color: #f7941d;"> Login</a>
+						Already Registered? <a href="checkout.php" style="color: #f7941d;"> Login</a>
 					</p>
 					
 				</form>
@@ -91,14 +86,7 @@ include("includes/shop_header.php"); ?>
    		$c_contact = $_POST['contact'];
    		$c_pass_1  = $_POST['password_1'];
    		$c_pass_2  = $_POST['password_2'];
-   		$c_image   = $_FILES['c_image']['name'];
-   		$c_image_tmp = $_FILES['c_image_tmp']['tmp_name'];
-
-   		$c_ip = getRealIpUser();
-
-   		move_uploaded_file($c_image_tmp,"customer/customer_images/$c_image");
-   		
-   		$password = md5($c_pass_1);
+   
 
    		$insert_customer = "INSERT INTO customers(customer_name, customer_email, customer_contact, customer_password, customer_image, customer_ip) VALUES('$c_name', '$c_email', '$c_contact', '$password', '$c_image', '$c_ip')";
 
