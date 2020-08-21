@@ -1,52 +1,64 @@
-<?php
-	
-	include("includes/db_conn.php");
+<?php 
 
+$active = 'Product';
+include("includes/db_conn.php");
+include("includes/header.php");
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title></title>
-	<!-- Bootstrap -->
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<!-- Font Awesome -->
-    <link rel="stylesheet" href="css/font-awesome.css">
-	
-	
-</head>
-<body>
-		<div class="row">
-			<div class="col-lg-12">
-				<ol class="breadcrumb">
-					<li class="active">
-						<i class="fa fa-dashboard"></i> Dashboard / Insert Products
-					</li>
-				</ol>
-			</div>
-		</div>
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+              <li class="breadcrumb-item active">Insert Product</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
 
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							<i class="fa fa-money fa-fw"></i> Insert Product
-						</h3>
-					</div>
-				<div class="panel-body">
-	<form class="form-horizontal" method="post" enctype="multipart/form-data">
+     <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-body">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 		<label class="col-md-3 control-label">Product Title</label>
-		<div class="col-md-6">
+		<div class="col-md-9">
 			<input type="text" name="product_title" class="form-control" required>	
 		</div>
-			</div>
-			<div class="form-group">
+		</div>
+		
+		<div class="form-group">
+		<label class="col-md-3 control-label">Product Brand</label>
+		<div class="col-md-9">
+			<select name="brand" class="form-control" required>
+				<option>Select Product Brand</option>
+				<?php
+					$get_brands = "SELECT * FROM brands";
+					$run_brands = mysqli_query($db, $get_brands);
+					while($row_brands = mysqli_fetch_array($run_brands))
+					{
+						$brand_id = $row_brands['brand_id'];
+						$brand_title = $row_brands['brand_title'];
+
+						echo "
+				       <option value='$brand_id'>$brand_title</option>
+						        ";
+					}
+
+				?>
+			</select>
+		</div>
+		</div>
+
+		<div class="form-group">
 		<label class="col-md-3 control-label">Product Category</label>
-		<div class="col-md-6">
-			<select name="product_category" id="" class="form-control" required>
+		<div class="col-md-9">
+			<select name="product_category" class="form-control" required>
 				<option>Select Product Category</option>
 				<?php
 					$get_p_cats = "SELECT * FROM product_categories";
@@ -67,7 +79,7 @@
 			</div>
 		<div class="form-group">
 		<label class="col-md-3 control-label">Category</label>
-		<div class="col-md-6">
+		<div class="col-md-9">
 			<select name="category" id="" class="form-control">
 				<option>Select a Category</option>
 				<?php
@@ -89,46 +101,92 @@
 			</div>
 		 <div class="form-group">
 		<label class="col-md-3 control-label">Product Image (first) </label>
-		<div class="col-md-6">
+		<div class="col-md-9">
 			<input type="file" name="product_img1" class="form-control" required>	
 		</div>
 			</div>
 			<div class="form-group">
 		<label class="col-md-3 control-label">Product Image (second) </label>
-		<div class="col-md-6">
+		<div class="col-md-9">
 			<input type="file" name="product_img2" class="form-control" required>	
 		</div>
 			</div>
 			<div class="form-group">
 		<label class="col-md-3 control-label">Product Image (third) </label>
-		<div class="col-md-6">
+		<div class="col-md-9">
 			<input type="file" name="product_img3" class="form-control" required>	
 		</div>
 			</div>
 		<div class="form-group">
-		<label class="col-md-3 control-label">Product Price</label>
-		<div class="col-md-6">
+		<label class="col-md-3 control-label">Regular Price</label>
+		<div class="col-md-9">
 		<input type="text" name="product_price" class="form-control" required>	
 		</div>
-			</div>
-			<div class="form-group">
+		</div>
+
+		<div class="form-group">
+		<label class="col-md-3 control-label">Discount Price</label>
+		<div class="col-md-9">
+		<input type="text" name="discount_price" class="form-control" required>	
+		</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-md-3 control-label">Promo Price</label>
+		<div class="col-md-9">
+		<input type="text" name="promo_price" class="form-control" required>	
+		</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-md-3 control-label">Product Qty</label>
+		<div class="col-md-9">
+		<input type="number" name="product_qty" class="form-control" required>	
+		</div>
+		</div>
+			
+		<div class="form-group">
 		<label class="col-md-3 control-label">Product Keywords</label>
-		<div class="col-md-6">
+		<div class="col-md-9">
 		<input type="text" name="product_keyword" class="form-control" required>	
 		</div>
 			</div>
+
 		<div class="form-group">
-		<label class="col-md-3 control-label">Product Description</label>
-		<div class="col-md-6">
-		<textarea class="form-control" name="product_desc" cols="30" rows="6" placeholder="Product description goes here....">
-		</textarea>	
+		<label class="col-md-3 control-label">Product Status</label>
+		<div class="col-md-9">
+		<select name="product_status" class="form-control" required>
+			<option disabled selected>Select Product Status</option>
+			<option value="Regular">Regular</option>
+			<option value="Discount">Discount</option>
+			<option value="Promo">Promo</option>
+		</select>	
 		</div>
-			</div>
+		</div>
+
+			<div class="form-group">
+            <label class='control-label col-sm-3'>Product Specification</label>
+              	<div class='col-sm-9'>
+                <textarea name="product_specs" class="textarea" placeholder="Place some text here"
+                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
+                          	
+		          </textarea>
+		          </div>
+		          </div>
+		  <div class="form-group">
+            <label class='control-label col-sm-3'>Product Description</label>
+              	<div class='col-sm-9'>
+                <textarea name="product_desc" class="textarea" placeholder="Place some text here"
+                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
+                          	
+		          </textarea>
+		          </div>
+		          </div>
 
 			<div class="form-group">
 				<label class="col-md-3 control-label"></label>
-			<div class="col-md-6">
-				<button type="submit" class="btn btn-success form-control" name="submit">
+			<div class="col-md-9">
+				<button type="submit" class="btn btn-primary form-control" name="submit">
 					<i class="fa fa-upload"></i> Insert Product
 				</button> 
 			</div>
@@ -139,31 +197,35 @@
 			</div>
 		</div>
 
+                
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+    </section>
 
 
 
-
-
-
-	<script src="js/jquery.min.js"></script>
-	<!-- Bootstrap JS -->
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/tinymce/js/tinymce.min.js"></script>
-	<script>
-		tinymce.init({ selector:'textarea'});
-	</script>
-</body>
-</html>
-
+<?php include("includes/footer.php"); ?>
+<?php include("includes/footer_links.php"); ?>
 <?php
 	
 	if(isset($_POST['submit']))
 	{
 		$product_title = mysqli_real_escape_string($db, $_POST['product_title']);
+		$product_brand = mysqli_real_escape_string($db, $_POST['brand']);
 		$product_category = mysqli_real_escape_string($db, $_POST['product_category']);
 		$category = mysqli_real_escape_string($db, $_POST['category']);
 		$product_price = mysqli_real_escape_string($db, $_POST['product_price']);
+		$discount_price = mysqli_real_escape_string($db, $_POST['discount_price']);
+		$promo_price = mysqli_real_escape_string($db, $_POST['promo_price']);
+		$product_qty = mysqli_real_escape_string($db, $_POST['product_qty']);
 		$product_keyword = mysqli_real_escape_string($db, $_POST['product_keyword']);
+		$product_status = mysqli_real_escape_string($db, $_POST['product_status']);
+		$product_specs = mysqli_real_escape_string($db, $_POST['product_specs']);
 		$product_desc = mysqli_real_escape_string($db, $_POST['product_desc']);
 
 		// image processing
@@ -179,7 +241,7 @@
 		move_uploaded_file($temp_name2,"product_images/$product_img2");
 		move_uploaded_file($temp_name3,"product_images/$product_img3");
 
-		$insert_product = "INSERT INTO products(p_cat_id, cat_id, date, product_title, product_img1, product_img2, product_img3, product_price, product_keywords, product_desc)VALUES('$product_category', '$category', NOW(),'$product_title','$product_img1', '$product_img2', '$product_img3', '$product_price','$product_keyword', '$product_desc')";
+		$insert_product = "INSERT INTO products(p_cat_id, cat_id, brand_id, date, product_title, product_img1, product_img2, product_img3, product_price, discount_price, promo_price,product_qty, product_keywords, product_status, product_specs, product_desc)VALUES('$product_category', '$category','$product_brand', NOW(),'$product_title','$product_img1', '$product_img2', '$product_img3', '$product_price','$discount_price','$promo_price','$product_qty', '$product_keyword','$product_status','$product_specs','$product_desc')";
 
 		$run_product = mysqli_query($db, $insert_product);
 
