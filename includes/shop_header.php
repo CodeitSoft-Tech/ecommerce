@@ -3,8 +3,14 @@
 
  session_start();
 
+ $mytime = getdate(date("U"));
+ $date ="$mytime[weekday], $mytime[month], $mytime[mday], $mytime[year]";
+ 
+
+
  include("includes/db_conn.php"); 
  include("functions/functions.php");
+ include("rate.php");
  
  ?>
 
@@ -21,9 +27,28 @@
 
 		$row_product = mysqli_fetch_array($run_product);
 
-		$p_cat_id = $row_product['p_cat_id'];
+		$p_cat_id    = $row_product['p_cat_id'];
+		$cat_id      = $row_product['cat_id'];
+		$brand_id    = $row_product['brand_id'];
+		$label_id    = $row_product['label_id'];
+
 		$pro_title = $row_product['product_title'];
-		$pro_price = $row_product['product_price'];
+
+		 
+		 if($row_product['product_status'] == 'Regular')
+			{
+				$pro_price = $row_product['product_price'];
+			}
+		elseif ($row_product['product_status'] == 'Discount') 
+		   {
+				$pro_price = $row_product['discount_price'];
+			}
+		 else
+		   {
+				$pro_price = $row_product['promo_price'];
+		   }
+
+		$pro_specs = $row_product['product_specs'];
 		$pro_desc = $row_product['product_desc'];
 		$pro_img1 = $row_product['product_img1'];
 		$pro_img2 = $row_product['product_img2'];
@@ -32,8 +57,18 @@
 		$run_p_cat = mysqli_query($db, $get_p_cat);
 		$row_p_cat = mysqli_fetch_array($run_p_cat);
 		$p_cat_title = $row_p_cat['p_cat_title'];
-
-
+		$get_cat   = "SELECT * FROM categories WHERE cat_id = '$cat_id'";
+		$run_cat   = mysqli_query($db, $get_cat);
+		$row_cat   = mysqli_fetch_array($run_cat);
+		$cat_title = $row_cat['cat_title'];
+		$get_brand   = "SELECT * FROM brands WHERE brand_id = '$brand_id'";
+		$run_brand  = mysqli_query($db, $get_brand);
+		$row_brand   = mysqli_fetch_array($run_brand);
+		$brand_title = $row_brand['brand_title'];
+		$get_label   = "SELECT * FROM product_labels WHERE label_id = '$label_id'";
+		$run_label  = mysqli_query($db, $get_label);
+		$row_label  = mysqli_fetch_array($run_label);
+		$label_title = $row_label['label_title'];
 	}
 ?>
 
@@ -59,6 +94,13 @@
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<!-- Bootstrap.min.css -->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<!-- Bootstrap.min.css 
+	<link rel="stylesheet" type="text/css" href="css/new-bootstrap.min.css"> -->
+	<!-- DataTables -->
+    <link rel="stylesheet" href="datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="datatables-responsive/css/responsive.bootstrap4.min.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
 	<!-- Magnific Popup -->
     <link rel="stylesheet" href="css/magnific-popup.min.css">
 	<!-- Font Awesome -->
@@ -83,17 +125,88 @@
 	<!-- Eshop StyleSheet -->
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="details.css">
     <link rel="stylesheet" href="css/responsive.css">
 
 	
 	
 </head>
 <style type="text/css">
-	#nav-pro-desc-tab
+	#nav-tab a.active
 	{
 		background: #f7941d;
+		color: #fff; 
+	}
+
+	.scroll-menu
+	{
+		height: 200px;
+		overflow-y: scroll;
+	}
+
+
+	.label{
+		color: #000;
+		text-transform: uppercase;
+		font-size:  15px;
+		font-weight: 400;
+		position: absolute;
+		top: 25%;
+		right: 55%;
+		padding-left: 51px;
+		z-index: 20;
+	}
+
+	.label .labelBackground
+	{
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	.label .theLabel
+	{
+		position: relative;
+		width: 100px;
+		padding-left: 10px;
+		margin: 10px 50px 10px -41;
 		color: #fff;
 	}
+
+	.label.Sale .theLabel
+	{
+		background-color: rgb(255, 0, 64);
+	}
+	.label.New .theLabel
+	{
+		background-color: #f7941d;
+	}
+
+	.label .theLabel:before,
+	.label .theLabel:after
+	{
+		content: "";
+		position: absolute;
+		width: 0;
+		height: 0;
+	}
+
+	.label .theLabel:after
+	{
+		left: 0;
+		top: 100%;
+		border-width: 5px 10px;
+		border-style: solid;
+		border-color: #000 #000 transparent transparent;
+	}
+
+
+
+
+
+
+
+
 
 
 </style>
@@ -130,6 +243,23 @@
 							<!-- Top Right -->
 							<div class="right-content">
 								<ul class="list-main">
+									<li><i class="ti-shopping-cart"></i> <a href="sell.php">
+										<?php
+
+										if(!isset($_SESSION['customer_name']))
+										{
+											echo "<a href='sell.php'> Sell With Us </a>";
+										}
+
+										else
+										{
+											echo "<a href='seller_dashboard.php?my_uploads'>Seller Dashboard</a>";
+										}
+											
+
+										?>
+									</a>
+									</li>
 									<li><i class="ti-user"></i> <a href="customer/my_account.php">My account</a></li>
 								    <li><i class="ti-power-off"></i><a href="checkout.php">
 								<?php
@@ -161,12 +291,12 @@
 						<div class="col-lg-2 col-md-2 col-12">
 							<!-- Logo -->
 							<div class="logo">
-								<a href="index.html"><img src="images/logo.png" alt="logo"></a>
+								<a href="index.php"><img src="images/logo.png" alt="logo"></a>
 							</div>
 							<!--/ End Logo -->
 							<!-- Search Form -->
 							<div class="search-top">
-								<div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
+							<div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
 								<!-- Search Form -->
 								<div class="search-top">
 									<form class="search-form">
@@ -310,10 +440,8 @@
 										<div class="navbar-collapse">	
 											<div class="nav-inner">	
 			<ul class="nav main-menu menu navbar-nav">
-			<li class="<?php if($active =='Home') echo "active"; ?>"><a href="index.php">Home</a></li>
+		<li class="<?php if($active =='Home') echo "active"; ?>"><a href="index.php">Home</a></li>
 			<li class="<?php if($active =='Shop') echo "active"; ?>"><a href="shop.php">Shop</a></li>
-			<li class="<?php if($active =='Cart') echo "active"; ?>"><a href="cart.php">Cart</a></li>
-			<li class="<?php if($active =='Checkout') echo "active"; ?>"><a href="checkout.php">Checkout</a></li>
 			<li class="<?php if($active =='Account') echo "active"; ?>">
 
 				<?php
@@ -330,7 +458,23 @@
 				?>
 
 			</li>
-			<li class="<?php if($active=='Sell') echo "active"; ?>"><a href="sell_request.php">Sell With Us</a></li>
+			<li class="<?php if($active == 'Sell') echo "active"; ?>">
+
+				<?php
+				
+					if(!isset($_SESSION['customer_name']))
+					{
+						echo "<a href='register.php'>Sell With Us </a>";
+					}
+					else
+					{
+						echo "<a href='sell.php'>Sell With Us</a>";
+					}
+					
+			
+				?>
+
+			</li>
 			<li class="<?php if($active=='Contact')echo "active"; ?>"><a href="contact.php">Contact Us</a></li>
 												</ul>
 											</div>
@@ -346,3 +490,4 @@
 			<!--/ End Header Inner -->
 		</header>
 		<!--/ End Header -->
+		
