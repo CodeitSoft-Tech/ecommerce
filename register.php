@@ -38,6 +38,11 @@ include("includes/shop_header.php"); ?>
 
 					 <div class="form-group">
 					<label style="font-weight: 700;">Your Full Name</label>
+					  <input type="text" name="fullname" class="form-control">
+					</div>
+
+					<div class="form-group">
+					<label style="font-weight: 700;">Your Username</label>
 					  <input type="text" name="username" class="form-control">
 					</div>
 
@@ -81,14 +86,18 @@ include("includes/shop_header.php"); ?>
     
     if(isset($_POST['register_btn']))
     {
-   		$c_name    = $_POST['username'];
-   		$c_email   = $_POST['email'];
-   		$c_contact = $_POST['contact'];
-   		$c_pass_1  = $_POST['password_1'];
-   		$c_pass_2  = $_POST['password_2'];
-   
+    	$c_ip = getRealIpUser();
 
-   		$insert_customer = "INSERT INTO customers(customer_name, customer_email, customer_contact, customer_password, customer_image, customer_ip) VALUES('$c_name', '$c_email', '$c_contact', '$password', '$c_image', '$c_ip')";
+    	$fullname  = mysqli_real_escape_string($db, $_POST['fullname']);
+   		$c_name    = mysqli_real_escape_string($db, $_POST['username']);
+   		$c_email   = mysqli_real_escape_string($db, $_POST['email']);
+   		$c_contact = mysqli_real_escape_string($db, $_POST['contact']);
+   		$c_pass_1  = mysqli_real_escape_string($db, $_POST['password_1']);
+   		$c_pass_2  = mysqli_real_escape_string($db, $_POST['password_2']);
+   
+		$password = md5($c_pass_1);   		
+
+   		$insert_customer = "INSERT INTO customers(customer_name, customer_username, customer_email, customer_contact, customer_password, customer_ip) VALUES('$fullname', '$c_name', '$c_email', '$c_contact', '$password', '$c_ip')";
 
    		$run_customer = mysqli_query($db, $insert_customer);
 

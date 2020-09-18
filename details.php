@@ -12,6 +12,10 @@ include("includes/shop_header.php"); ?>
               <ul class="bread-list">
                 <li><a href="index.php">Home<i class="ti-arrow-right"></i></a></li>
                <a href="shop.php?p_cat=<?php echo $p_cat_id; ?>"><?php echo $p_cat_title; ?></a>
+               <a href="shop.php?cat_id=<?php echo $cat_id; ?>">
+                <li><i class="ti-arrow-right"></i> <?php echo $cat_title; ?></a>
+              <a href="shop.php?brand_id=<?php echo $brand_id; ?>">
+                </i> <?php echo $brand_title; ?></a>
                 <li><i class="ti-arrow-right"></i> <?php echo $pro_title; ?></li>
               </ul>
             </div>
@@ -61,18 +65,14 @@ include("includes/shop_header.php"); ?>
                         <a href="#"> (1 customer review)</a> 
                       </div>
                       <div class="quickview-stock">
-                       <span><i class="fa fa-check-circle-o"></i> in stock</span>
+                       <span style="background-color: green; padding: 5px; color: #fff;"><?php echo $label_title; ?></span>
                       </div>
                     </div>
-
-                      <?php add_cart(); ?>
-
-               
-                    <h3><?php echo "₵".$pro_price.".00"; ?></h3>
+                     <h3><?php echo "₵".$pro_price.".00"; ?></h3>
                     <div class="quickview-peragraph">
                     </div>
 
-                          <?php add_cart(); ?>
+                      <?php add_cart(); ?>
                     <form action="details.php?add_cart=<?php echo $product_id; ?>" method="post">
                     <div class="size">
                       <div class="row">
@@ -149,8 +149,9 @@ include("includes/shop_header.php"); ?>
                     </div>
                     
                     <div class="add-to-cart">
-                     <button type="submit" class="btn" ><i class="fa fa-shopping-cart"></i> Add to cart
-                     </button>
+                      <!--
+                      <a href="details.php?add_cart=<?php echo $product_id; ?>" class="btn">Add to cart</a>-->
+                      <button type="submit" class="btn"><i class="fa fa-shopping-cart"></i> Add to cart</button>
                     </div>
                   </form>
                     <!--
@@ -179,7 +180,6 @@ include("includes/shop_header.php"); ?>
     <div class="tab-pane fade show active" id="nav-pro-desc" role="tabpanel" aria-labelledby="nav-pro-desc-tab"><?php echo $pro_desc; ?></div>
     <div class="tab-pane fade" id="nav-specs" role="tabpanel" aria-labelledby="nav-specs-tab"> 
       <?php echo $pro_specs; ?></div>
-      
   <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab"><br>
       <div class="rating-review">
         <div class="tri table-flex">

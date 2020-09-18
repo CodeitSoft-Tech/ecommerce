@@ -27,7 +27,7 @@
 			<div class="row">
 		<div class="col-lg-3 col-md-4 col-12">
 			<div class="shop-sidebar">
-								<!-- Single Widget -->
+		<!-- Single Widget -->
 			<div class="single-widget category">
 				<h3 class="title">Product Categories</h3>
 				<ul class="categor-list">
@@ -44,26 +44,9 @@
 		<div class="single-widget card-body category">
 		<h3 class="title">
 			Top Brands
-
-			<div class="pull-right">
-				<a href="#" style="color: #000">
-					<span class="nav-toggle hide-show">
-						Hide
-					</span>
-				</a>
-			</div>
 		</h3>
 
-	 <div class="input-group mb-3">
-	  
-	  <input type="text" class="form-control" placeholder="Filter Brands" aria-label="" aria-describedby="basic-addon2" id="brand-filter" data-filters="#brand" data-action="filter">
-
-	  <div class="input-group-append">
-	    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
-	 </div>
-
-    </div>
-    	<div class="card-body scroll-menu">
+    	<div class="scroll-menu">
 		<ul class="categor-list" id="brand">
 			<?php 
 				$get_brands = "SELECT * FROM brands WHERE brand_top = 'Yes'";
@@ -84,20 +67,14 @@
 						$brand_image = "<img src='admin_area/brand_images/$brand_image' width='20px'>&nbsp;";
 					}
 
-					echo "<li class='checkbox checkbox-primary'>
-
-							<a>
-								<label>
-								
-					   <input value='$brand_id' type='checkbox' class='checkbox' name='brands'>
-					   <span>
-					   	$brand_image
-					   	$brand_title
+					echo "
+					    <li>
+					    <a href='shop.php?brand_id=$brand_id'>
+					     <span> 
+					     $brand_image 
+					     $brand_title
 					   	</span>
-								</label>
-
-							</a>
-
+						</a>
 					   </li>";
 				}
 
@@ -119,22 +96,14 @@
 						$brand_image = "<img src='admin_area/brand_images/$brand_image' width='20px'>&nbsp;";
 					}
 
-					echo "<li class='checkbox checkbox-primary'>
-
-							<a>
-								<label>
-								
-					   <input type='checkbox' value='$brand_id'  class='checkbox' name='brands'>
-
-					   	 <span>
+					echo "
+					    <li>
+						<a href='shop.php?brand_id=$brand_id'>
+					   	<span>
 					   	$brand_image
 					   	$brand_title
 					   	</span>
-
-								</label>
-
-							</a>
-
+					   	</a>
 					   </li>";
 				}
 
@@ -190,6 +159,10 @@
 				<?php
                    if(!isset($_GET['p_cat']))
                    {
+                   	 if(!isset($_GET['cat_id']))
+                   	 {
+                   	 	if(!isset($_GET['brand_id']))
+                   	 	{
 
                         $per_page = 12;
                         if(isset($_GET['page']))
@@ -298,12 +271,14 @@
                              </a>
                             </li>
                         ";
-                    }
+                    } } }
 
                     ?>
                </ul>
             </center>
             		 <?php getpcatpro();  ?>
+            		 <?php getcatpro();  ?>
+            		 <?php getbrandpro();  ?>
 					</div>	
 				</div>
 			</div>
@@ -425,4 +400,4 @@
 			</div>
 			<!-- Modal end -->
 	
-	<?php include("includes/shop_footer.php"); ?>
+ <?php include("includes/shop_footer.php"); ?>

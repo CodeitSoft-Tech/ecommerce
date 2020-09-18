@@ -1,10 +1,4 @@
-/* =====================================
-Template Name: Eshop
-Author Name: Naimur Rahman
-Author URI: http://www.wpthemesgrid.com/
-Description: Eshop - eCommerce HTML5 Template.
-Version:1.0
-========================================*/
+
 /*======================================
 [ CSS Table of contents ]
 01. Preloader CSS
@@ -958,6 +952,7 @@ Version:1.0
 .header.shop .nav li:hover a{
 	color:#fff;
 	background:#F7941D;
+	
 }
 .header.shop.v2 .nav li:hover a{
 	color:#F7941D;

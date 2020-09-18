@@ -75,17 +75,54 @@
 	<section class="small-banner section">
 		<div class="container-fluid">
 			<div class="row">
-				<!-- Single Banner  -->
-				<div class="col-lg-4 col-md-6 col-12">
-					<div class="single-banner">
-						<img src="htt" alt="#">
-						<div class="content">
-							<p>Man's Collectons</p>
-							<h3>Summer travel <br> collection</h3>
-							<a href="#">Discover Now</a>
-						</div>
-					</div>
-				</div>
+				<!-- Single Banner
+				plan
+
+					 Set Deals tab at Admin side
+					 * Hot Deals
+					 * MidWeek Deals
+					 * Black Friday 
+		
+
+					 Deal Name
+					 Deal Image
+					 Deal Desc
+					 Deal button Desc 
+					 Deal URL
+
+
+				 -->
+				 <?php
+
+						$select_deal = "SELECT * FROM product_deals";
+						$run_deal =mysqli_query($db, $select_deal);
+
+						while($row_deal = mysqli_fetch_array($run_deal))
+						{
+							$deal_id = $row_deal['deal_id'];
+							$deal_title = $row_deal['deal_title'];
+							$deal_desc	= $row_deal['deal_short_desc'];
+							$deal_img	= $row_deal['deal_img'];
+							$btn_text  = $row_deal['deal_btn_title'];
+							$deal_url  =  $row_deal['deal_url'];
+
+							echo "
+									<div class='col-lg-4 col-md-6 col-12'>
+									<div class='single-banner'>
+										<img src='admin_area/deal_images/$deal_img' alt='$deal_title'>
+										<div class='content'>
+											<p>$deal_title</p>
+											<h3>$deal_desc</h3>
+											<a href='$deal_url'>$btn_text</a>
+										</div>
+									</div>
+								</div>
+
+							";
+						}
+
+					?>
+			
 				<!-- /End Single Banner  -->
 				<!-- Single Banner  -->
 				<div class="col-lg-4 col-md-6 col-12">
@@ -99,6 +136,7 @@
 					</div>
 				</div>
 				<!-- /End Single Banner  -->
+				
 				<!-- Single Banner  -->
 				<div class="col-lg-4 col-12">
 					<div class="single-banner tab-height">
@@ -322,6 +360,219 @@
             </div>
         </div>
     </div>
+	
+	<!-- Start Shop Home List  -->
+	<section class="shop-home-list section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-6 col-12">
+					<div class="row">
+						<div class="col-12">
+							<div class="shop-section-title">
+								<h1>On sale</h1>
+							</div>
+						</div>
+					</div>
+					<!-- Start Single List  -->
+					
+							<?php
+
+								$select_sale = "SELECT * FROM products WHERE label_id = '4'";
+								$run_sale = mysqli_query($db, $select_sale);
+
+								while($row_sale = mysqli_fetch_array($run_sale))
+								{
+									$pro_id 	   = $row_sale['product_id'];
+									$product_title = $row_sale['product_title'];
+									$product_img1  = $row_sale['product_img1'];
+									$product_price = $row_sale['product_price'];
+
+									echo "
+									<div class='single-list'>
+						            <div class='row'>
+									<div class='col-lg-6 col-md-6 col-12'>
+										<div class='list-image overlay'>
+											<img src='admin_area/product_images/$product_img1' alt='$product_title'>
+											<a href='details.php?pro_id=$pro_id' class='buy'><i class='fa fa-shopping-bag'></i></a>
+										</div>
+									</div>
+
+									<div class='col-lg-6 col-md-6 col-12 no-padding'>
+										<div class='content'>
+											<h5 class='title'><a href='details.php?pro_id=$pro_id'>$product_title</a></h5>
+											<p class='price with-discount'>₵$product_price.00</p>
+										</div>
+									</div>
+									</div>
+									</div>
+
+									     "; 
+								}
+
+
+							?>
+							<div style="margin-top: 20px;">				 			
+								<a href="On-sale.php">
+				 				<button type="submit" class="btn">
+				 					View More
+				 				</button>
+				 			</a>
+				 			</div>
+
+						
+					<!-- End Single List  -->
+				</div>
+				<div class="col-lg-4 col-md-6 col-12">
+					<div class="row">
+						<div class="col-12">
+							<div class="shop-section-title">
+								<h1>Hot Items</h1>
+							</div>
+						</div>
+					</div>
+					<!-- Start Single List  -->
+					
+							<?php
+
+								$select_sale = "SELECT * FROM products WHERE label_id = '2'";
+								$run_sale = mysqli_query($db, $select_sale);
+
+								while($row_sale = mysqli_fetch_array($run_sale))
+								{
+									$pro_id 	   = $row_sale['product_id'];
+									$product_title = $row_sale['product_title'];
+									$product_img1  = $row_sale['product_img1'];
+									$product_price = $row_sale['product_price'];
+
+									echo "
+									<div class='single-list'>
+						            <div class='row'>
+									<div class='col-lg-6 col-md-6 col-12'>
+										<div class='list-image overlay'>
+											<img src='admin_area/product_images/$product_img1' alt='$product_title'>
+											<a href='details.php?pro_id=$pro_id' class='buy'><i class='fa fa-shopping-bag'></i></a>
+										</div>
+									</div>
+
+									<div class='col-lg-6 col-md-6 col-12 no-padding'>
+										<div class='content'>
+											<h5 class='title'><a href='details.php?pro_id=$pro_id'>$product_title</a></h5>
+											<p class='price with-discount'>₵$product_price.00</p>
+										</div>
+									</div>
+									</div>
+									</div>
+
+									     "; 
+								}
+
+
+							?>
+							<div style="margin-top: 20px;">				 			
+								<a href="hot_deals.php">
+				 				<button type="submit" class="btn">
+				 					View More
+				 				</button>
+				 			</a>
+				 			</div>
+					<!-- End Single List  -->
+				</div>
+				<div class="col-lg-4 col-md-6 col-12">
+					<div class="row">
+						<div class="col-12">
+							<div class="shop-section-title">
+								<h1>Top viewed</h1>
+							</div>
+						</div>
+					</div>
+					<!-- Start Single List  -->
+					<div class="single-list">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-12">
+								<div class="list-image overlay">
+									<img src="https://via.placeholder.com/115x140" alt="#">
+									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-12 no-padding">
+								<div class="content">
+									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
+									<p class="price with-discount">$22</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Single List  -->
+					<!-- Start Single List  -->
+					<div class="single-list">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-12">
+								<div class="list-image overlay">
+									<img src="https://via.placeholder.com/115x140" alt="#">
+									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-12 no-padding">
+								<div class="content">
+									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
+									<p class="price with-discount">$35</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Single List  -->
+					<!-- Start Single List  -->
+					<div class="single-list">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-12">
+								<div class="list-image overlay">
+									<img src="https://via.placeholder.com/115x140" alt="#">
+									<a href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-12 no-padding">
+								<div class="content">
+									<h5 class="title"><a href="#">Licity jelly leg flat Sandals</a></h5>
+									<p class="price with-discount">$99</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Single List  -->
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Shop Home List  -->
+	
+	<!-- Start Cowndown Area 
+	<section class="cown-down">
+		<div class="section-inner ">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-6 col-12 padding-right">
+						<div class="image">
+							<img src="https://via.placeholder.com/750x590" alt="#">
+						</div>	
+					</div>	
+					<div class="col-lg-6 col-12 padding-left">
+						<div class="content">
+							<div class="heading-block">
+								<p class="small-title">Deal of day</p>
+								<h3 class="title">Beatutyful dress for women</h3>
+								<p class="text">Suspendisse massa leo, vestibulum cursus nulla sit amet, frungilla placerat lorem. Cars fermentum, sapien. </p>
+								<h1 class="price">$1200 <s>$1890</s></h1>
+								<div class="coming-time">
+									<div class="clearfix" data-countdown="2021/02/30"></div>
+								</div>
+							</div>
+						</div>	
+					</div>	
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- /End Cowndown Area -->
 	
 	
 	
