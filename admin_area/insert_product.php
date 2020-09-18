@@ -150,7 +150,30 @@ include("includes/header.php");
 		<div class="col-md-9">
 		<input type="text" name="product_keyword" class="form-control" required>	
 		</div>
-			</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-md-3 control-label">Product Label</label>
+		<div class="col-md-9">
+			<select name="product_label" class="form-control" required>
+				<option>Select Product Label</option>
+				<?php
+					$get_p_label = "SELECT * FROM product_labels";
+					$run_p_label = mysqli_query($db, $get_p_label);
+					while($row_p_label = mysqli_fetch_array($run_p_label))
+					{
+						$label_id = $row_p_label['label_id'];
+						$label_title = $row_p_label['label_title'];
+
+						echo "
+				       <option value='$label_id'>$label_title</option>
+						        ";
+					}
+
+				?>
+			</select>
+		</div>
+		</div>
 
 		<div class="form-group">
 		<label class="col-md-3 control-label">Product Status</label>
@@ -224,6 +247,7 @@ include("includes/header.php");
 		$promo_price = mysqli_real_escape_string($db, $_POST['promo_price']);
 		$product_qty = mysqli_real_escape_string($db, $_POST['product_qty']);
 		$product_keyword = mysqli_real_escape_string($db, $_POST['product_keyword']);
+		$product_label = mysqli_real_escape_string($db, $_POST['product_label']);
 		$product_status = mysqli_real_escape_string($db, $_POST['product_status']);
 		$product_specs = mysqli_real_escape_string($db, $_POST['product_specs']);
 		$product_desc = mysqli_real_escape_string($db, $_POST['product_desc']);
@@ -241,7 +265,7 @@ include("includes/header.php");
 		move_uploaded_file($temp_name2,"product_images/$product_img2");
 		move_uploaded_file($temp_name3,"product_images/$product_img3");
 
-		$insert_product = "INSERT INTO products(p_cat_id, cat_id, brand_id, date, product_title, product_img1, product_img2, product_img3, product_price, discount_price, promo_price,product_qty, product_keywords, product_status, product_specs, product_desc)VALUES('$product_category', '$category','$product_brand', NOW(),'$product_title','$product_img1', '$product_img2', '$product_img3', '$product_price','$discount_price','$promo_price','$product_qty', '$product_keyword','$product_status','$product_specs','$product_desc')";
+		$insert_product = "INSERT INTO products(p_cat_id, cat_id, brand_id, date, product_title, product_img1, product_img2, product_img3, product_price, discount_price, promo_price,product_qty, product_keywords, product_status, product_label, product_specs, product_desc)VALUES('$product_category', '$category','$product_brand', NOW(),'$product_title','$product_img1', '$product_img2', '$product_img3', '$product_price','$discount_price','$promo_price','$product_qty', '$product_keyword','$product_status','$product_label','$product_specs','$product_desc')";
 
 		$run_product = mysqli_query($db, $insert_product);
 

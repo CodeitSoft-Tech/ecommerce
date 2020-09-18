@@ -36,12 +36,13 @@ include("includes/header.php"); ?>
                   <th>Product Image 1</th>
                   <th>Product Image 2</th>
                   <th>Product Image 3</th>
-                  <th>Product Price</th>
-                  <th>Discount Price</th>
-                  <th>Promo Price</th>
+                  <th>Product Price (GH₵)</th>
+                  <th>Discount Price (GH₵)</th>
+                  <th>Promo Price (GH₵)</th>
                   <th>Product Qty</th>
                   <th>Product Sold</th>
                   <th>Product Keywords</th>
+                  <th>Product Label</th>
                   <th>Product Status</th>
                   <th>Product Specs</th>
                   <th>Product Desc</th>                
@@ -64,6 +65,7 @@ include("includes/header.php"); ?>
                           $p_cat_id   = $row['p_cat_id'];
                           $cat_id     = $row['cat_id'];
                           $brand_id   = $row['brand_id'];
+                          $label_id   = $row['label_id'];
                           $product_title = $row['product_title'];
                           $product_img1 = $row['product_img1'];
                           $product_img2 = $row['product_img2'];
@@ -88,6 +90,10 @@ include("includes/header.php"); ?>
                           $run_brand = mysqli_query($db, $select_brand);
                           $row = mysqli_fetch_array($run_brand);
                           $brand_title = $row['brand_title']; 
+                      $select_label = "SELECT * FROM product_labels WHERE label_id = '$label_id'";
+                          $run_label = mysqli_query($db, $select_label);
+                          $row = mysqli_fetch_array($run_label);
+                          $label_title = $row['label_title']; 
 
 
                   ?>
@@ -107,9 +113,9 @@ include("includes/header.php"); ?>
                       <td>
                         <?php
 
-                            $pro_id = $row['product_id'];
+                            
 
-                            $get_sold = "SELECT * FROM pending_orders where product_id = '$pro_id'";
+                            $get_sold = "SELECT * FROM pending_orders where product_id = '$product_id'";
                             $run_sold = mysqli_query($db, $get_sold);
                             $count = mysqli_num_rows($run_sold);
 
@@ -117,6 +123,7 @@ include("includes/header.php"); ?>
                         ?>
                       </td>
                       <td><?php echo $product_keywords;  ?></td>
+                       <td><?php echo $label_title;  ?></td>
                       <td> <?php
                               if($product_status == 'Regular')
                               {
@@ -233,9 +240,9 @@ include("includes/header.php"); ?>
 
               <div class="form-group">
               <label class="control-label">Product Image 1</label>
-              <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id; ?>" required>  
+              <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id; ?>">  
                 
-                <input type="file" class="form-control" name="product_img1" required>  <br>
+                <input type="file" class="form-control" name="product_img1">  <br>
 
                 <img width="70" height="70" src="product_images/<?php echo $product_img1; ?>" alt="<?php echo $product_title; ?>">
 
@@ -244,9 +251,9 @@ include("includes/header.php"); ?>
 
              <div class="form-group">
               <label class="control-label">Product Image 2</label>
-              <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id; ?>" required>  
+              <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id; ?>">  
                 
-                <input type="file" class="form-control" name="product_img2" required>  <br>
+                <input type="file" class="form-control" name="product_img2">  <br>
 
                 <img width="70" height="70" src="product_images/<?php echo $product_img2; ?>" alt="<?php echo $product_title; ?>">
 
@@ -255,9 +262,9 @@ include("includes/header.php"); ?>
 
              <div class="form-group">
               <label class="control-label">Product Image 3</label>
-              <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id ;?>" required>  
+              <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id ;?>">  
                 
-                <input type="file" class="form-control" name="product_img3" required>  <br>
+                <input type="file" class="form-control" name="product_img3">  <br>
 
                 <img width="70" height="70" src="product_images/<?php echo $product_img3; ?>" alt="<?php echo $product_title; ?>">
 
@@ -272,7 +279,7 @@ include("includes/header.php"); ?>
             </div> 
 
             <div class="form-group">
-              <label class="control-label">Discount Price</label> 
+              <label class="control-label">Discount Price </label> 
                <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id; ?>" required> 
                 <input type="text" class="form-control" name="discount_price" value="<?php echo $discount_price; ?>" required>  
               </div>
@@ -280,7 +287,7 @@ include("includes/header.php"); ?>
 
 
             <div class="form-group">
-              <label class="control-label">Promo Price</label>
+              <label class="control-label">Promo Price </label>
                <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id; ?>" required> 
                 <input type="text" class="form-control" name="promo_price" value="<?php echo $promo_price; ?>" required>  
               </div>
@@ -298,6 +305,30 @@ include("includes/header.php"); ?>
               <label class="control-label">Product Keywords</label>
               <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id; ?>" required> 
                 <input type="text" class="form-control" name="product_keywords" value="<?php echo $product_keywords; ?>" required>  
+              </div>
+            </div> 
+
+              <div class="form-group">
+              <label class="control-label">Product Label</label>
+              <div class="col-lg-9"><input type="hidden" class="form-control" name="product_id" value="<?php echo $product_id; ?>" required>  
+               <select name="product_label" class="form-control">
+                 <option value="<?php echo $label_title; ?>"><?php echo $label_title; ?></option>
+                 <?php
+
+                    $select_label = "SELECT * FROM product_labels";
+                    $run_label = mysqli_query($db, $select_label);
+
+                    while($row_label = mysqli_fetch_array($run_label))
+                    {
+                        $label_id = $row_label['label_id'];
+                        $label_title =$row_label['label_title'];
+
+                        echo "
+                       <option value='$label_id'>$label_title</option>";
+                    }
+
+                 ?>
+               </select>  
               </div>
             </div> 
 
@@ -388,12 +419,13 @@ include("includes/header.php"); ?>
                   <th>Product Image 1</th>
                   <th>Product Image 2</th>
                   <th>Product Image 3</th>
-                  <th>Product Price</th>
-                  <th>Discount Price</th>
-                  <th>Promo Price</th>
+                  <th>Product Price (GH₵)</th>
+                  <th>Discount Price (GH₵)</th>
+                  <th>Promo Price (GH₵)</th>
                   <th>Product Qty</th>
                   <th>Product Sold</th>
                   <th>Product Keywords</th>
+                  <th>Product Label</th>
                   <th>Product Status</th>
                   <th>Product Specs</th>
                   <th>Product Desc</th>                
